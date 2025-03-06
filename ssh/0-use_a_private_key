@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script connects to a server using a private key for SSH authentication
+
+ssh -i ~/.ssh/school 45a50c1e7cc1@45a50c1e7cc1.d569d670.alu-cod.online
