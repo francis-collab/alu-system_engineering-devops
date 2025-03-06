@@ -1,0 +1,5 @@
+# SSH client configuration file
+
+Host 45a50c1e7cc1.d569d670.alu-cod.online
+    IdentityFile ~/.ssh/school
+    PasswordAuthentication no
