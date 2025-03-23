@@ -1,17 +1,8 @@
 #!/usr/bin/env bash
-# Configure Nginx server so that /redirect_me is redirecting to another page
+# Configure Nginx to redirect /redirect_me to https://github.com/francis-collab with a 301 Moved Permanently status
 
-# Update the package list and install Nginx
-sudo apt-get update
-sudo apt-get install -y nginx
-
-# Create a test index page (just as a placeholder, can be removed later)
-echo "Hello World!" | sudo tee /var/www/html/index.html
-
-# Modify the Nginx config to set up the redirection
-# Using 'return 301' instead of 'rewrite' to achieve permanent redirection
-new_route="server {\n\tlisten 80;\n\tserver_name _;\n\tlocation /redirect_me {\n\t\treturn 301 https://github.com/francis-collab;\n\t}\n}"
-sudo sed -i "s|server_name _;|$new_route|" /etc/nginx/sites-enabled/default
-
-# Reload Nginx to apply the configuration
-sudo service nginx reload
+# Modify the Nginx configuration to set up the redirection
+sed -i '/location \/redirect_me/,+1 d' /etc/nginx/sites-available/default
+echo -e "location /redirect_me {\n\treturn 301 https://github.com/francis-collab;\n}" >> /etc/nginx/sites-available/def>
+# Reload Nginx configuration to apply changes (without using systemctl)
+nginx -s reload
