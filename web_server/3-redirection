@@ -3,6 +3,7 @@
 
 # Modify the Nginx configuration to set up the redirection
 sed -i '/location \/redirect_me/,+1 d' /etc/nginx/sites-available/default
-echo -e "location /redirect_me {\n\treturn 301 https://github.com/francis-collab;\n}" >> /etc/nginx/sites-available/def>
-# Reload Nginx configuration to apply changes (without using systemctl)
+echo -e "location /redirect_me {\n\treturn 301 https://github.com/francis-collab;\n}" >> /etc/nginx/sites-available/default
+
+# Reload Nginx configuration to apply changes made (without using systemctl)
 nginx -s reload
