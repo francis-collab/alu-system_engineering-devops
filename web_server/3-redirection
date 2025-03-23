@@ -7,3 +7,6 @@ echo -e "location /redirect_me {\n\treturn 301 https://github.com/francis-collab
 
 # Reload Nginx configuration to apply changes made (without using systemctl)
 nginx -s reload
+
+# Verify the redirection with curl (should show 301 status)
+curl -sI http://localhost/redirect_me | grep "HTTP/1.1 301"
