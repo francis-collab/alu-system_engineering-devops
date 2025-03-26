@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# This script installs and configures HAproxy on lb-01 to load balance traffic between web-01 and web-02.
+
+# Install HAproxy
+sudo apt update
+sudo apt install -y haproxy
+
+# Configure HAproxy to use round-robin and direct traffic to web-01 and web-02
+sudo bash -c 'cat > /etc/haproxy/haproxy.cfg <<EOF
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /usr/share/haproxy
+    stats socket /var/run/haproxy.sock mode 600 level admin
+    stats timeout 30s
+    maxconn 2000
+
+defaults
+    log     global
+    option  httplog
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+
+frontend http_front
+    bind *:80
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server web-01 3.87.73.252:80 check
+    server web-02 54.84.224.82:80 check
+EOF'
+
+# Enable and start HAproxy service
+sudo systemctl enable haproxy
+sudo systemctl start haproxy
